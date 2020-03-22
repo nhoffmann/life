@@ -1,10 +1,17 @@
 package simulator
 
-import "github.com/nhoffmann/life/grid"
+import (
+	"bytes"
+	"fmt"
+
+	"github.com/nhoffmann/life/grid"
+)
 
 type Simulator struct {
 	Rows    int
 	Columns int
+
+	GenerationCount int
 
 	grid grid.Grid
 }
@@ -27,6 +34,7 @@ func (s *Simulator) Evolute() {
 		}
 	}
 
+	s.GenerationCount++
 	s.grid = newGrid
 }
 
@@ -91,5 +99,10 @@ func (s *Simulator) cellLives(rowIndex, columnIndex int) bool {
 }
 
 func (s *Simulator) String() string {
-	return s.grid.String()
+	var out bytes.Buffer
+
+	out.WriteString(s.grid.String())
+	fmt.Fprintf(&out, "Generation: %d", s.GenerationCount)
+
+	return out.String()
 }
