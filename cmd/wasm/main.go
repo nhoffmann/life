@@ -23,7 +23,7 @@ func main() {
 
 	s = simulator.New(width/10, height/10)
 
-	s.LoadPattern(pattern.Acorn, 50, 50)
+	s.LoadPattern(pattern.Acorn)
 
 	cvs, _ = canvas.NewCanvas2d(false)
 	cvs.Create(width, height)

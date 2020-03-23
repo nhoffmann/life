@@ -40,7 +40,13 @@ func (s *Simulator) Evolute() {
 }
 
 // LoadPattern populates the grid with a given pattern
-func (s *Simulator) LoadPattern(pattern [][]int, startX, startY int) {
+func (s *Simulator) LoadPattern(pattern [][]int) {
+	patternWidth := len(pattern[0])
+	patternHeigth := len(pattern)
+
+	startY := (s.grid.Height() + patternHeigth) / 2
+	startX := (s.grid.Width() + patternWidth) / 2
+
 	for rowIndex, patternRow := range pattern {
 		for colIndex := range patternRow {
 			if pattern[rowIndex][colIndex] == 1 {

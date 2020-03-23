@@ -7,6 +7,7 @@ import (
 	"time"
 
 	"github.com/gosuri/uilive"
+	"github.com/nhoffmann/life/pattern"
 	"github.com/nhoffmann/life/simulator"
 	"github.com/urfave/cli/v2"
 )
@@ -48,13 +49,7 @@ func main() {
 			writer := uilive.New()
 			writer.Start()
 
-			glider := [][]int{
-				{0, 1, 0},
-				{0, 0, 1},
-				{1, 1, 1},
-			}
-
-			s.LoadPattern(glider, 2, 2)
+			s.LoadPattern(pattern.Chaos2)
 
 			for {
 				fmt.Fprint(writer, s.String())
