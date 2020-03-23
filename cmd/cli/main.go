@@ -1,4 +1,4 @@
-package cli
+package main
 
 import (
 	"fmt"
@@ -11,7 +11,7 @@ import (
 	"github.com/urfave/cli/v2"
 )
 
-func Start() {
+func main() {
 	var rows int
 	var columns int
 	var frequency int64
