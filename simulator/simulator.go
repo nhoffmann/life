@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"fmt"
 
+	"github.com/llgcode/draw2d/draw2dimg"
 	"github.com/nhoffmann/life/grid"
 )
 
@@ -13,7 +14,7 @@ type Simulator struct {
 
 	GenerationCount int
 
-	grid grid.Grid
+	grid *grid.Grid
 }
 
 func New(rows, columns int) *Simulator {
@@ -54,48 +55,24 @@ func (s *Simulator) Populate(x, y int) {
 	s.grid.Populate(x, y)
 }
 
-func (s *Simulator) evoluteCell(grid grid.Grid, rowIndex, columnIndex int) {
+func (s *Simulator) evoluteCell(grid *grid.Grid, rowIndex, columnIndex int) {
 	if s.cellLives(rowIndex, columnIndex) {
 		grid.Populate(rowIndex, columnIndex)
 	}
 }
 
 func (s *Simulator) cellLives(rowIndex, columnIndex int) bool {
-	cellPopulated := s.grid.IsPopulated(rowIndex, columnIndex)
-
-	neighbors := []bool{
-		s.grid.IsPopulated(rowIndex-1, columnIndex-1), // topLeft
-		s.grid.IsPopulated(rowIndex-1, columnIndex),   // topCenter
-		s.grid.IsPopulated(rowIndex-1, columnIndex+1), // topRight
-		s.grid.IsPopulated(rowIndex, columnIndex-1),   // left
-		s.grid.IsPopulated(rowIndex, columnIndex+1),   // right
-		s.grid.IsPopulated(rowIndex+1, columnIndex-1), // bottomLeft
-		s.grid.IsPopulated(rowIndex+1, columnIndex),   // bottomCenter
-		s.grid.IsPopulated(rowIndex+1, columnIndex+1), // bottomRight
-	}
-
-	var aliveNeighborCount int
-
-	for _, neighborPopulated := range neighbors {
-		if neighborPopulated {
-			aliveNeighborCount++
-		}
-	}
-
-	if cellPopulated {
-		// Any live cell with two or three neighbors survives.
-		if aliveNeighborCount == 2 || aliveNeighborCount == 3 {
+	switch s.grid.AliveNeigborCount(rowIndex, columnIndex) {
+	case 2:
+		if s.grid.IsPopulated(rowIndex, columnIndex) {
 			return true
 		}
-	} else {
-		// Any dead cell with three live neighbors becomes a live cell.
-		if aliveNeighborCount == 3 {
-			return true
-		}
+		return false
+	case 3:
+		return true
+	default:
+		return false
 	}
-
-	// All other cells die in the next generation.
-	return false
 }
 
 func (s *Simulator) String() string {
@@ -105,4 +82,8 @@ func (s *Simulator) String() string {
 	fmt.Fprintf(&out, "Generation: %d", s.GenerationCount)
 
 	return out.String()
+}
+
+func (s *Simulator) Render(gc *draw2dimg.GraphicContext) bool {
+	return s.grid.Render(gc)
 }

@@ -2,23 +2,30 @@ package grid
 
 import (
 	"bytes"
+	"image/color"
+
+	"github.com/llgcode/draw2d/draw2dimg"
+	"github.com/llgcode/draw2d/draw2dkit"
 )
 
 // Grid is a datastructure to contain an evolution of a game of life
 type Grid struct {
 	matrix [][]int
+
+	cellWidth  float64
+	cellHeight float64
 }
 
 // New creates a new instance of Grid
-func New(width, height int) Grid {
-	grid := Grid{}
+func New(width, height int) *Grid {
+	grid := Grid{cellWidth: 10.0, cellHeight: 10.0}
 
 	grid.matrix = make([][]int, width)
 	for i := 0; i < width; i++ {
 		grid.matrix[i] = make([]int, height)
 	}
 
-	return grid
+	return &grid
 }
 
 // Width returns the width of the current grids matrix
@@ -34,15 +41,33 @@ func (g *Grid) Height() int {
 // IsPopulated returns true when the cell at the given coordinates is populated,
 // it returns false otherwise
 func (g *Grid) IsPopulated(x, y int) bool {
-	if x < 0 || x >= g.Width() {
-		return false
-	}
-
-	if y < 0 || y >= g.Height() {
-		return false
-	}
-
 	return g.matrix[x][y] == 1
+}
+
+func (g *Grid) ValueAt(x, y int) int {
+	switch {
+	case x < 0:
+		return g.ValueAt(g.Width()-1, y)
+	case x >= g.Width():
+		return g.ValueAt(0, y)
+	case y < 0:
+		return g.ValueAt(x, g.Height()-1)
+	case y >= g.Height():
+		return g.ValueAt(x, 0)
+	}
+
+	return g.matrix[x][y]
+}
+
+func (g *Grid) AliveNeigborCount(x, y int) int {
+	return g.ValueAt(x-1, y-1) + // topLeft
+		g.ValueAt(x, y-1) + // topCenter
+		g.ValueAt(x+1, y-1) + // topRight
+		g.ValueAt(x-1, y) + // left
+		g.ValueAt(x+1, y) + // right
+		g.ValueAt(x-1, y+1) + // bottomLeft
+		g.ValueAt(x, y+1) + // bottomCenter
+		g.ValueAt(x+1, y+1) // bottomRight
 }
 
 // Populate populates the cell at the given coordinates
@@ -66,4 +91,32 @@ func (g *Grid) String() string {
 	}
 
 	return out.String()
+}
+
+func (g *Grid) Render(gc *draw2dimg.GraphicContext) bool {
+	black := color.RGBA{0x00, 0x00, 0x00, 0xFF}
+	white := color.RGBA{0xff, 0xff, 0xff, 0xff}
+
+	gc.SetFillColor(white)
+	gc.Clear()
+
+	gc.SetLineWidth(1)
+
+	gc.SetStrokeColor(white)
+	gc.SetFillColor(black)
+	gc.BeginPath()
+	for rowIndex, row := range g.matrix {
+		for columnIndex, cell := range row {
+			if cell == 1 {
+				x := float64(rowIndex) * g.cellWidth
+				y := float64(columnIndex) * g.cellHeight
+
+				draw2dkit.Rectangle(gc, x, y, x+g.cellWidth, y+g.cellHeight)
+			}
+		}
+	}
+	gc.FillStroke()
+	gc.Close()
+
+	return true
 }
