@@ -20,18 +20,40 @@ func TestSimulator(t *testing.T) {
 				[][]int{{0, 0, 0}, {0, 0, 0}, {0, 0, 0}},
 			},
 			{
-				[][]int{{0, 1, 0}, {0, 1, 0}, {0, 1, 0}},
-				[][]int{{0, 0, 0}, {1, 1, 1}, {0, 0, 0}},
+				[][]int{
+					{0, 0, 0, 0, 0},
+					{0, 0, 1, 0, 0},
+					{0, 0, 1, 0, 0},
+					{0, 0, 1, 0, 0},
+					{0, 0, 0, 0, 0},
+				},
+				[][]int{
+					{0, 0, 0, 0, 0},
+					{0, 0, 0, 0, 0},
+					{0, 1, 1, 1, 0},
+					{0, 0, 0, 0, 0},
+					{0, 0, 0, 0, 0},
+				},
 			},
 		}
 
 		for _, test := range tests {
-			s := New(3, 3)
-			s.LoadPattern(test.pattern, 0, 0)
+			width := len(test.pattern[0])
+			height := len(test.pattern)
+
+			s := New(width, height, "B3/S23")
+			err := s.LoadPatternAt(test.pattern, 0, 0)
+			if err != nil {
+				t.Fatalf("Error loading pattern: %s", err)
+			}
+
 			s.Evolute()
 
-			expected := New(3, 3)
-			expected.LoadPattern(test.expectedPattern, 0, 0)
+			expected := New(width, height, "B3/S23")
+			err = expected.LoadPatternAt(test.expectedPattern, 0, 0)
+			if err != nil {
+				t.Fatalf("Error loading pattern: %s", err)
+			}
 
 			if !reflect.DeepEqual(s.grid, expected.grid) {
 				t.Errorf("Evolute output incorrect.\nExpected: %q\n Got:%q", expected.grid, s.grid)

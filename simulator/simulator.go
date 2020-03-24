@@ -3,24 +3,25 @@ package simulator
 import (
 	"bytes"
 	"fmt"
+	"log"
 
 	"github.com/llgcode/draw2d/draw2dimg"
 	"github.com/nhoffmann/life/grid"
 )
 
 type Simulator struct {
-	Rows    int
-	Columns int
-
+	Rows            int
+	Columns         int
 	GenerationCount int
-
-	grid *grid.Grid
+	rule            Rule
+	grid            *grid.Grid
 }
 
-func New(rows, columns int) *Simulator {
+func New(rows, columns int, ruleString string) *Simulator {
 	return &Simulator{
 		Rows:    rows,
 		Columns: columns,
+		rule:    ParseRule(ruleString),
 		grid:    grid.New(rows, columns),
 	}
 }
@@ -44,12 +45,20 @@ func (s *Simulator) LoadPattern(pattern [][]int) error {
 	patternWidth := len(pattern[0])
 	patternHeigth := len(pattern)
 
-	if patternWidth >= s.grid.Width() || patternHeigth >= s.grid.Height() {
-		return fmt.Errorf("pattern too big for current grid")
-	}
-
 	startX := (s.grid.Width() - patternWidth) / 2
 	startY := (s.grid.Height() - patternHeigth) / 2
+
+	return s.LoadPatternAt(pattern, startX, startY)
+}
+
+func (s *Simulator) LoadPatternAt(pattern [][]int, startX, startY int) error {
+	patternWidth := len(pattern[0])
+	patternHeight := len(pattern)
+
+	if patternWidth > s.grid.Width() || patternHeight > s.grid.Height() {
+		log.Print(patternWidth >= s.grid.Width())
+		return fmt.Errorf("pattern too big for current grid")
+	}
 
 	for rowIndex, patternRow := range pattern {
 		for colIndex := range patternRow {
@@ -74,17 +83,27 @@ func (s *Simulator) evoluteCell(grid *grid.Grid, rowIndex, columnIndex int) {
 }
 
 func (s *Simulator) cellLives(rowIndex, columnIndex int) bool {
-	switch s.grid.AliveNeigborCount(rowIndex, columnIndex) {
-	case 2:
-		if s.grid.IsPopulated(rowIndex, columnIndex) {
-			return true
+	count := s.grid.AliveNeigborCount(rowIndex, columnIndex)
+
+	if s.grid.IsPopulated(rowIndex, columnIndex) {
+		// apply survive rules
+		for _, surviveCount := range s.rule.SurviveCounts {
+			if surviveCount == count {
+				return true
+			}
 		}
-		return false
-	case 3:
-		return true
-	default:
+	} else {
+		// apply born rules
+		for _, bornCount := range s.rule.BornCounts {
+			if bornCount == count {
+				return true
+			}
+		}
+
 		return false
 	}
+
+	return false
 }
 
 func (s *Simulator) String() string {

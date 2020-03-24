@@ -16,6 +16,7 @@ func main() {
 	var rows int
 	var columns int
 	var frequency int64
+	var rule string
 
 	app := &cli.App{
 		Name:  "life",
@@ -42,9 +43,16 @@ func main() {
 				Value:       500,
 				Destination: &frequency,
 			},
+			&cli.StringFlag{
+				Name:        "rule",
+				Aliases:     []string{"r"},
+				Usage:       "String notation of the born and survive rules",
+				Value:       "B3/S23",
+				Destination: &rule,
+			},
 		},
 		Action: func(c *cli.Context) error {
-			s := simulator.New(rows, columns)
+			s := simulator.New(rows, columns, rule)
 
 			writer := uilive.New()
 			writer.Start()

@@ -27,14 +27,10 @@ func main() {
 	width := int(js.Global().Get("innerWidth").Float())
 	height := int(js.Global().Get("innerHeight").Float())
 
-	patternName := "Chaos2"
-	patternFromJs := js.Global().Get("pattern").String()
+	patternName := js.Global().Get("pattern").String()
+	ruleString := js.Global().Get("rule").String()
 
-	if patternFromJs != "<null>" {
-		patternName = patternFromJs
-	}
-
-	s = simulator.New(width/CELL_WIDTH, height/CELL_WIDTH)
+	s = simulator.New(width/CELL_WIDTH, height/CELL_WIDTH, ruleString)
 
 	p, ok := pattern.Pattern[patternName]
 	if !ok {
