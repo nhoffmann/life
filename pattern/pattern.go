@@ -1,5 +1,16 @@
 package pattern
 
+var Pattern = map[string][][]int{
+	"Glider":           Glider,
+	"GospersGliderGun": GospersGliderGun,
+	"RPentomino":       RPentomino,
+	"DieHard":          DieHard,
+	"Acorn":            Acorn,
+	"Chaos":            Chaos,
+	"Chaos2":           Chaos2,
+	"Chaos3":           Chaos3,
+}
+
 var Glider = [][]int{
 	{0, 1, 0},
 	{0, 0, 1},
