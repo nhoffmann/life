@@ -20,8 +20,18 @@
 
 		<script type="text/javascript" src="./wasm_exec.js"></script>
 		<script>
+      let params = (new URL(document.location)).searchParams;
+      let pattern = params.get('pattern');
+
+      if (!pattern) {
+        pattern = 'RPentomino'
+      }
+
+      window.pattern = pattern;
+
 			const go = new Go();
 			WebAssembly.instantiateStreaming(fetch('main.wasm'),go.importObject).then( res=> {
+
 				go.run(res.instance)
 			})
 		</script>
@@ -29,6 +39,33 @@
 	</style>
 	</head>
 	<body>
-		<div style="position:absolute; bottom: 0; background: #FFFFFF; padding:3px;">Game of Life <a href="https://github.com/nhoffmann/life">https://github.com/nhoffmann/life</a></div>
-	</body>
+    <div style="position:absolute; bottom: 0; background: #FFFFFF; padding:3px;">
+      <a href="https://github.com/nhoffmann/life">Game of Life</a>
+      |
+      Current Pattern: <span id="pattern-label"></span>
+      |
+      Choose pattern:
+      <select id="pattern-selector">
+        <option></option>
+        <option value="RPentomino">R-Pentomino</option>
+        <option value="Glider">Glider</option>
+        <option value="GospersGliderGun">GospersGliderGun</option>
+        <option value="DieHard">DieHard</option>
+        <option value="Acorn">Acorn</option>
+        <option value="Chaos">Chaos</option>
+        <option value="Chaos2">Chaos2</option>
+        <option value="Chaos3">Chaos3</option>
+      </select>
+    </div>
+  </body>
+
+  <script>
+      function reload(event) {
+        console.log(event.target.value)
+        location.href = '?pattern='+event.target.value
+      }
+
+      document.getElementById('pattern-selector').addEventListener('change', reload)
+      document.getElementById('pattern-label').innerHTML = window.pattern
+  </script>
 </html>
