@@ -40,20 +40,26 @@ func (s *Simulator) Evolute() {
 }
 
 // LoadPattern populates the grid with a given pattern
-func (s *Simulator) LoadPattern(pattern [][]int) {
+func (s *Simulator) LoadPattern(pattern [][]int) error {
 	patternWidth := len(pattern[0])
 	patternHeigth := len(pattern)
 
-	startY := (s.grid.Height() + patternHeigth) / 2
-	startX := (s.grid.Width() + patternWidth) / 2
+	if patternWidth >= s.grid.Width() || patternHeigth >= s.grid.Height() {
+		return fmt.Errorf("pattern too big for current grid")
+	}
+
+	startX := (s.grid.Width() - patternWidth) / 2
+	startY := (s.grid.Height() - patternHeigth) / 2
 
 	for rowIndex, patternRow := range pattern {
 		for colIndex := range patternRow {
 			if pattern[rowIndex][colIndex] == 1 {
-				s.Populate(rowIndex+startX, colIndex+startY)
+				s.Populate(colIndex+startX, rowIndex+startY)
 			}
 		}
 	}
+
+	return nil
 }
 
 // Populate populates the cell at the given coordinates
