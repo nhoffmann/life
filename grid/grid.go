@@ -44,6 +44,7 @@ func (g *Grid) IsPopulated(x, y int) bool {
 	return g.matrix[x][y] == 1
 }
 
+// ValueAt returns the value at a given grid coordinate. Wraps around at the edges.
 func (g *Grid) ValueAt(x, y int) int {
 	switch {
 	case x < 0:
@@ -59,15 +60,17 @@ func (g *Grid) ValueAt(x, y int) int {
 	return g.matrix[x][y]
 }
 
+// AliveNeigborCount returns the number of alive cells in the Moore Neighborhood
+// of a given cell coordinate
 func (g *Grid) AliveNeigborCount(x, y int) int {
-	return g.ValueAt(x-1, y-1) + // topLeft
-		g.ValueAt(x, y-1) + // topCenter
-		g.ValueAt(x+1, y-1) + // topRight
-		g.ValueAt(x-1, y) + // left
-		g.ValueAt(x+1, y) + // right
-		g.ValueAt(x-1, y+1) + // bottomLeft
-		g.ValueAt(x, y+1) + // bottomCenter
-		g.ValueAt(x+1, y+1) // bottomRight
+	return g.ValueAt(x-1, y-1) + // NW
+		g.ValueAt(x, y-1) + // N
+		g.ValueAt(x+1, y-1) + // NE
+		g.ValueAt(x-1, y) + // W
+		g.ValueAt(x+1, y) + // E
+		g.ValueAt(x-1, y+1) + // SW
+		g.ValueAt(x, y+1) + // S
+		g.ValueAt(x+1, y+1) // SE
 }
 
 // Populate populates the cell at the given coordinates
@@ -75,24 +78,7 @@ func (g *Grid) Populate(x, y int) {
 	g.matrix[x][y] = 1
 }
 
-func (g *Grid) String() string {
-	var out bytes.Buffer
-
-	for _, row := range g.matrix {
-		for _, cell := range row {
-			if cell == 1 {
-				out.WriteString("O")
-			} else {
-				out.WriteString("•")
-			}
-		}
-
-		out.WriteString("\n")
-	}
-
-	return out.String()
-}
-
+// Render paints the grid on a given draw2dimg.GraphicContext
 func (g *Grid) Render(gc *draw2dimg.GraphicContext) bool {
 	black := color.RGBA{0x00, 0x00, 0x00, 0xFF}
 	white := color.RGBA{0xff, 0xff, 0xff, 0xff}
@@ -119,4 +105,22 @@ func (g *Grid) Render(gc *draw2dimg.GraphicContext) bool {
 	gc.Close()
 
 	return true
+}
+
+func (g *Grid) String() string {
+	var out bytes.Buffer
+
+	for _, row := range g.matrix {
+		for _, cell := range row {
+			if cell == 1 {
+				out.WriteString("O")
+			} else {
+				out.WriteString("•")
+			}
+		}
+
+		out.WriteString("\n")
+	}
+
+	return out.String()
 }
