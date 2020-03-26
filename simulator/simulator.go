@@ -13,7 +13,7 @@ type Simulator struct {
 	Rows            int
 	Columns         int
 	GenerationCount int
-	rule            Rule
+	Rule            Rule
 	grid            *grid.Grid
 }
 
@@ -21,7 +21,7 @@ func New(rows, columns int, ruleString string) *Simulator {
 	return &Simulator{
 		Rows:    rows,
 		Columns: columns,
-		rule:    ParseRule(ruleString),
+		Rule:    ParseRule(ruleString),
 		grid:    grid.New(rows, columns),
 	}
 }
@@ -87,14 +87,14 @@ func (s *Simulator) cellLives(rowIndex, columnIndex int) bool {
 
 	if s.grid.IsPopulated(rowIndex, columnIndex) {
 		// apply survive rules
-		for _, surviveCount := range s.rule.SurviveCounts {
+		for _, surviveCount := range s.Rule.SurviveCounts {
 			if surviveCount == count {
 				return true
 			}
 		}
 	} else {
 		// apply born rules
-		for _, bornCount := range s.rule.BornCounts {
+		for _, bornCount := range s.Rule.BornCounts {
 			if bornCount == count {
 				return true
 			}
