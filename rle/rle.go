@@ -8,14 +8,10 @@ import (
 )
 
 type RLE struct {
-	Comment    string  // #C
-	Name       string  // #N
-	Originator string  // #O
-	Rule       string  // #R or rule
-	Position   string  // #P
-	Width      int     // x
-	Height     int     // y
-	Pattern    [][]int // The actual pattern
+	Rule    string  // rule
+	Width   int     // x
+	Height  int     // y
+	Pattern [][]int // The actual pattern
 
 	inputLines       []string
 	headerLineIndex  int

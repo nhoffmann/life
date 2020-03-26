@@ -24,10 +24,9 @@ func TestRLE(t *testing.T) {
 					{0, 0, 1},
 					{1, 1, 1},
 				},
-				expectedWidth:   3,
-				expectedHeight:  3,
-				expectedComment: "This is a glider.",
-				expectedRule:    "",
+				expectedWidth:  3,
+				expectedHeight: 3,
+				expectedRule:   "",
 			},
 			{
 				input: `#N Gosper glider gun
@@ -49,9 +48,7 @@ func TestRLE(t *testing.T) {
 				},
 				expectedWidth:  36,
 				expectedHeight: 9,
-				expectedComment: `This was the first gun discovered.
-				As its name suggests, it was discovered by Bill Gosper.`,
-				expectedRule: "B3/S23",
+				expectedRule:   "B3/S23",
 			},
 		}
 
@@ -60,10 +57,6 @@ func TestRLE(t *testing.T) {
 
 			if err != nil {
 				t.Error(err)
-			}
-
-			if rle.Comment != test.expectedComment {
-				t.Errorf("Comment does not match")
 			}
 
 			if rle.Width != test.expectedWidth {
