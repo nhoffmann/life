@@ -10,5 +10,4 @@ require (
 	github.com/mattn/go-isatty v0.0.12 // indirect
 	github.com/urfave/cli/v2 v2.2.0
 	golang.org/x/sys v0.0.0-20200321134203-328b4cd54aae // indirect
-	gopkg.in/llgcode/draw2d.v1 v1.0.0-20161213143547-2745c863f923 // indirect
 )

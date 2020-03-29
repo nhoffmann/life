@@ -8,55 +8,44 @@ import (
 func TestSimulator(t *testing.T) {
 	t.Run("Evolute()", func(t *testing.T) {
 		tests := []struct {
-			pattern         [][]int
-			expectedPattern [][]int
+			pattern         [][]bool
+			expectedPattern [][]bool
 		}{
 			{
-				[][]int{{0, 0, 0}, {0, 0, 0}, {0, 0, 0}},
-				[][]int{{0, 0, 0}, {0, 0, 0}, {0, 0, 0}},
+				[][]bool{{false, false, false}, {false, false, false}, {false, false, false}},
+				[][]bool{{false, false, false}, {false, false, false}, {false, false, false}},
 			},
 			{
-				[][]int{{0, 0, 0}, {0, 1, 0}, {0, 0, 0}},
-				[][]int{{0, 0, 0}, {0, 0, 0}, {0, 0, 0}},
+				[][]bool{{false, false, false}, {false, true, false}, {false, false, false}},
+				[][]bool{{false, false, false}, {false, false, false}, {false, false, false}},
 			},
 			{
-				[][]int{
-					{0, 0, 0, 0, 0},
-					{0, 0, 1, 0, 0},
-					{0, 0, 1, 0, 0},
-					{0, 0, 1, 0, 0},
-					{0, 0, 0, 0, 0},
+				[][]bool{
+					{false, false, false, false, false},
+					{false, false, true, false, false},
+					{false, false, true, false, false},
+					{false, false, true, false, false},
+					{false, false, false, false, false},
 				},
-				[][]int{
-					{0, 0, 0, 0, 0},
-					{0, 0, 0, 0, 0},
-					{0, 1, 1, 1, 0},
-					{0, 0, 0, 0, 0},
-					{0, 0, 0, 0, 0},
+				[][]bool{
+					{false, false, false, false, false},
+					{false, false, false, false, false},
+					{false, true, true, true, false},
+					{false, false, false, false, false},
+					{false, false, false, false, false},
 				},
 			},
 		}
 
 		for _, test := range tests {
-			width := len(test.pattern[0])
-			height := len(test.pattern)
-
-			s := New(width, height, "B3/S23")
-			err := s.LoadPatternAt(test.pattern, 0, 0)
-			if err != nil {
-				t.Fatalf("Error loading pattern: %s", err)
-			}
+			s := NewSimulatorWithPattern(test.pattern, "B3/S23")
 
 			s.Evolute()
 
-			expected := New(width, height, "B3/S23")
-			err = expected.LoadPatternAt(test.expectedPattern, 0, 0)
-			if err != nil {
-				t.Fatalf("Error loading pattern: %s", err)
-			}
+			expected := NewSimulatorWithPattern(test.expectedPattern, "B3/S23")
 
-			if !reflect.DeepEqual(s.grid, expected.grid) {
-				t.Errorf("Evolute output incorrect.\nExpected: %q\n Got:%q", expected.grid, s.grid)
+			if !reflect.DeepEqual(s.Generation(), expected.Generation()) {
+				t.Errorf("Evolute output incorrect.\nExpected: %v\n Got:%v", expected.Generation(), s.Generation())
 			}
 		}
 	})
