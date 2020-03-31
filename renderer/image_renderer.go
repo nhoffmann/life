@@ -14,6 +14,9 @@ type ImageRenderer struct {
 	imageHeight    float64
 	lineWidth      float64
 
+	offsetX float64
+	offsetY float64
+
 	rowCount          int
 	columnCount       int
 	centerRowIndex    int
@@ -31,15 +34,63 @@ func NewImageRenderer(width, height int) ImageRenderer {
 	ir.imageWidth = float64(width)
 	ir.imageHeight = float64(height)
 
+	ir.calculateRowsAndColumns()
+
+	ir.cellColor = color.RGBA{0x00, 0x00, 0x00, 0xff}
+	ir.boardColor = color.RGBA{0xff, 0xff, 0xff, 0xff}
+
+	return ir
+}
+
+func (ir *ImageRenderer) CellSideLength(length float64) {
+	ir.cellSideLength = length
+
+	ir.calculateRowsAndColumns()
+}
+
+func (ir *ImageRenderer) LineWidth(width float64) {
+	ir.lineWidth = width
+
+	ir.calculateRowsAndColumns()
+}
+
+func (ir *ImageRenderer) ImageWidth(width float64) {
+	ir.imageWidth = width
+
+	ir.calculateRowsAndColumns()
+}
+
+func (ir *ImageRenderer) ImageHeight(height float64) {
+	ir.imageHeight = height
+
+	ir.calculateRowsAndColumns()
+}
+
+func (ir *ImageRenderer) SetOffsetX(offset float64) {
+	ir.offsetX = offset
+
+	ir.calculateRowsAndColumns()
+}
+
+func (ir *ImageRenderer) OffsetX() float64 {
+	return ir.offsetX
+}
+
+func (ir *ImageRenderer) SetOffsetY(offset float64) {
+	ir.offsetY = offset
+
+	ir.calculateRowsAndColumns()
+}
+
+func (ir *ImageRenderer) OffsetY() float64 {
+	return ir.offsetY
+}
+
+func (ir *ImageRenderer) calculateRowsAndColumns() {
 	ir.rowCount = int(ir.imageWidth / ir.cellSideLength)
 	ir.columnCount = int(ir.imageHeight / ir.cellSideLength)
 	ir.centerRowIndex = ir.rowCount / 2
 	ir.centerColumnIndex = ir.columnCount / 2
-
-	ir.cellColor = color.RGBA{0x00, 0x00, 0x00, 0xFF}
-	ir.boardColor = color.RGBA{0xff, 0xff, 0xff, 0xff}
-
-	return ir
 }
 
 func (ir *ImageRenderer) Render(gc *draw2dimg.GraphicContext, g *grid.Generation) bool {
@@ -84,5 +135,5 @@ func (ir *ImageRenderer) coordinates(cell grid.Cell) (x, y float64) {
 	renderRow := ir.centerRowIndex + cell.X
 	renderColumn := ir.centerColumnIndex + cell.Y
 
-	return float64(renderRow) * ir.cellSideLength, float64(renderColumn) * ir.cellSideLength
+	return float64(renderRow)*ir.cellSideLength + ir.offsetX, float64(renderColumn)*ir.cellSideLength + ir.offsetY
 }

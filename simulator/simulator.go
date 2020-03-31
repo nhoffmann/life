@@ -5,13 +5,11 @@ import (
 	"fmt"
 
 	"github.com/nhoffmann/life/grid"
-	"github.com/nhoffmann/life/renderer"
 )
 
 type Simulator struct {
-	GenerationCount int
+	generationCount int
 	Rule            Rule
-	Renderer        renderer.ImageRenderer
 	generation      *grid.Generation
 }
 
@@ -40,8 +38,16 @@ func (s *Simulator) Evolute() {
 		s.evoluteMooreNeighborhood(nextGeneration, cell)
 	}
 
-	s.GenerationCount++
+	s.generationCount++
 	s.generation = nextGeneration
+}
+
+func (s *Simulator) GenerationCount() int {
+	return s.generationCount
+}
+
+func (s *Simulator) CellCount() int {
+	return s.generation.CellCount()
 }
 
 func (s *Simulator) evoluteMooreNeighborhood(nextGeneration *grid.Generation, cell grid.Cell) {
@@ -88,7 +94,7 @@ func (s *Simulator) String() string {
 	var out bytes.Buffer
 
 	// out.WriteString(s.generation.String())
-	fmt.Fprintf(&out, "Generation: %d", s.GenerationCount)
+	fmt.Fprintf(&out, "Generation: %d", s.generationCount)
 
 	return out.String()
 }
