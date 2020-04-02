@@ -20,7 +20,7 @@ func NewSimulator(ruleString string) *Simulator {
 	}
 }
 
-func NewSimulatorWithPattern(pattern [][]bool, ruleString string) *Simulator {
+func NewSimulatorWithPattern(pattern [][]int, ruleString string) *Simulator {
 	s := NewSimulator(ruleString)
 	s.generation.LoadPattern(pattern)
 	return s

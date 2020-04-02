@@ -36,10 +36,10 @@ func TestGeneration(t *testing.T) {
 	t.Run("LoadPattern", func(t *testing.T) {
 		g := NewGeneration()
 
-		g.LoadPattern([][]bool{
-			{false, false, false},
-			{true, true, true},
-			{false, false, false},
+		g.LoadPattern([][]int{
+			{0, 0, 0},
+			{1, 1, 1},
+			{0, 0, 0},
 		})
 
 		expectedCells := []Cell{

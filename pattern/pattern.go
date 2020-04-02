@@ -1,6 +1,6 @@
 package pattern
 
-var Pattern = map[string][][]bool{
+var Pattern = map[string][][]int{
 	"Glider":           Glider,
 	"GospersGliderGun": GospersGliderGun,
 	"RPentomino":       RPentomino,
@@ -11,59 +11,59 @@ var Pattern = map[string][][]bool{
 	"Chaos3":           Chaos3,
 }
 
-var Glider = [][]bool{
-	{false, true, false},
-	{false, false, true},
-	{true, true, true},
+var Glider = [][]int{
+	{0, 1, 0},
+	{0, 0, 1},
+	{1, 1, 1},
 }
 
-var GospersGliderGun = [][]bool{
-	{false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, true, false, false, false, false, false, false, false, false, false, false, false},
-	{false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, true, false, true, false, false, false, false, false, false, false, false, false, false, false},
-	{false, false, false, false, false, false, false, false, false, false, false, false, true, true, false, false, false, false, false, false, true, true, false, false, false, false, false, false, false, false, false, false, false, false, true, true},
-	{false, false, false, false, false, false, false, false, false, false, false, true, false, false, false, true, false, false, false, false, true, true, false, false, false, false, false, false, false, false, false, false, false, false, true, true},
-	{true, true, false, false, false, false, false, false, false, false, true, false, false, false, false, false, true, false, false, false, true, true, false, false, false, false, false, false, false, false, false, false, false, false, false, false},
-	{true, true, false, false, false, false, false, false, false, false, true, false, false, false, true, false, true, true, false, false, false, false, true, false, true, false, false, false, false, false, false, false, false, false, false, false},
-	{false, false, false, false, false, false, false, false, false, false, true, false, false, false, false, false, true, false, false, false, false, false, false, false, true, false, false, false, false, false, false, false, false, false, false, false},
-	{false, false, false, false, false, false, false, false, false, false, false, true, false, false, false, true, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false},
-	{false, false, false, false, false, false, false, false, false, false, false, false, true, true, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false},
+var GospersGliderGun = [][]int{
+	{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+	{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+	{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1},
+	{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1},
+	{1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+	{1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 1, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+	{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+	{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+	{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
 }
 
-var RPentomino = [][]bool{
-	{false, true, true},
-	{true, true, false},
-	{false, true, false},
+var RPentomino = [][]int{
+	{0, 1, 1},
+	{1, 1, 0},
+	{0, 1, 0},
 }
 
-var DieHard = [][]bool{
-	{false, false, false, false, false, false, true, false},
-	{true, true, false, false, false, false, false, false},
-	{false, true, false, false, false, true, true, true},
+var DieHard = [][]int{
+	{0, 0, 0, 0, 0, 0, 1, 0},
+	{1, 1, 0, 0, 0, 0, 0, 0},
+	{0, 1, 0, 0, 0, 1, 1, 1},
 }
 
-var Acorn = [][]bool{
-	{false, true, false, false, false, false, false},
-	{false, false, false, true, false, false, false},
-	{true, true, false, false, true, true, true},
+var Acorn = [][]int{
+	{0, 1, 0, 0, 0, 0, 0},
+	{0, 0, 0, 1, 0, 0, 0},
+	{1, 1, 0, 0, 1, 1, 1},
 }
 
-var Chaos = [][]bool{
-	{false, false, false, false, false, false, true, false},
-	{false, false, false, false, true, false, true, true},
-	{false, false, false, false, true, false, true, false},
-	{false, false, false, false, true, false, false, false},
-	{false, false, true, false, false, false, false, false},
-	{true, false, true, false, false, false, false, false},
+var Chaos = [][]int{
+	{0, 0, 0, 0, 0, 0, 1, 0},
+	{0, 0, 0, 0, 1, 0, 1, 1},
+	{0, 0, 0, 0, 1, 0, 1, 0},
+	{0, 0, 0, 0, 1, 0, 0, 0},
+	{0, 0, 1, 0, 0, 0, 0, 0},
+	{1, 0, 1, 0, 0, 0, 0, 0},
 }
 
-var Chaos2 = [][]bool{
-	{true, true, true, false, true},
-	{true, false, false, false, false},
-	{false, false, false, true, true},
-	{false, true, true, false, true},
-	{true, false, true, false, true},
+var Chaos2 = [][]int{
+	{1, 1, 1, 0, 1},
+	{1, 0, 0, 0, 0},
+	{0, 0, 0, 1, 1},
+	{0, 1, 1, 0, 1},
+	{1, 0, 1, 0, 1},
 }
 
-var Chaos3 = [][]bool{
-	{true, true, true, true, true, true, true, true, false, true, true, true, true, true, false, false, false, true, true, true, false, false, false, false, false, false, true, true, true, true, true, true, true, false, true, true, true, true, true},
+var Chaos3 = [][]int{
+	{1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1},
 }

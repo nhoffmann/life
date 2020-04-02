@@ -10,13 +10,13 @@ func NewGeneration() *Generation {
 	}
 }
 
-func (b *Generation) LoadPattern(pattern [][]bool) {
+func (b *Generation) LoadPattern(pattern [][]int) {
 	startX := len(pattern[0]) / -2
 	startY := len(pattern) / -2
 
 	for rowIndex, patternRow := range pattern {
 		for colIndex := range patternRow {
-			if pattern[rowIndex][colIndex] {
+			if pattern[rowIndex][colIndex] > 0 {
 				b.Populate(NewCell(colIndex+startX, rowIndex+startY))
 			}
 		}
