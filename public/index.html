@@ -1,0 +1,85 @@
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title>Life - A Game of Life implementation in Go and Web WebAssembly</title>
+		<meta name="author" content="Niels Hoffmann" />
+		<meta name="description" content="Game of Life | Go with Canvas and WebAssembly" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <style type="text/css" href="./main.css">
+      body {
+        height: 100%;
+        width: 100%;
+        padding: 0;
+        margin: 0;
+        background-color: rgba(255, 255, 255, 0.4);
+        color: #000000;
+        font-family: Arial, Helvetica, sans-serif;
+      }
+
+      canvas {
+        cursor: move;
+      }
+
+      .panel {
+        position: absolute;
+        background: rgba(255, 255, 255, 0.4);
+        margin: 5px;
+        padding: 5px;
+      }
+
+      #title {
+        display: flex;
+        align-items: flex-end;
+      }
+
+      h1 {
+        margin: 0 15px 0 0;
+        line-height: 1;
+      }
+
+      #info {
+        bottom: 0;
+        left: 0;
+      }
+
+      #controls {
+        display: flex;
+        bottom: 0;
+        right: 0;
+      }
+    </style>
+    <script type="text/javascript" src="./wasm_exec.js"></script>
+    <script type="module" src="./main.js"></script>
+	</head>
+	<body>
+    <div id="title" class="panel">
+      <h1><a href="https://github.com/nhoffmann/life">Game of Life</a></h1>
+      <div>
+        Current Pattern: <span id="pattern-label"></span>
+        |
+        Choose pattern:
+        <select id="pattern-selector">
+          <option></option>
+          <option value="RPentomino">R-Pentomino</option>
+          <option value="Glider">Glider</option>
+          <option value="GospersGliderGun">GospersGliderGun</option>
+          <option value="DieHard">DieHard</option>
+          <option value="Acorn">Acorn</option>
+          <option value="Chaos">Chaos</option>
+          <option value="Chaos2">Chaos2</option>
+          <option value="Chaos3">Chaos3</option>
+        </select>
+        |
+        <input type="file" name="file-input" id="file-input" />
+      </div>
+    </div>
+    <div id="controls" class="panel">
+      <input id="cellSideLength-range" type="range" min="3" max="25" value="10">
+      <button id="center" class="btn btn-link">Center</button>
+    </div>
+    <div id="info" class="panel">
+      Cells: <span id="cell-count"></span> |
+      Generations: <span id="generation-count"></span>
+    </div>
+  </body>
+</html>

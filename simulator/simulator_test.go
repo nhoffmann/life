@@ -8,31 +8,47 @@ import (
 func TestSimulator(t *testing.T) {
 	t.Run("Evolute()", func(t *testing.T) {
 		tests := []struct {
-			pattern         [][]bool
-			expectedPattern [][]bool
+			pattern         [][]int
+			expectedPattern [][]int
 		}{
 			{
-				[][]bool{{false, false, false}, {false, false, false}, {false, false, false}},
-				[][]bool{{false, false, false}, {false, false, false}, {false, false, false}},
-			},
-			{
-				[][]bool{{false, false, false}, {false, true, false}, {false, false, false}},
-				[][]bool{{false, false, false}, {false, false, false}, {false, false, false}},
-			},
-			{
-				[][]bool{
-					{false, false, false, false, false},
-					{false, false, true, false, false},
-					{false, false, true, false, false},
-					{false, false, true, false, false},
-					{false, false, false, false, false},
+				[][]int{
+					{0, 0, 0},
+					{0, 0, 0},
+					{0, 0, 0},
 				},
-				[][]bool{
-					{false, false, false, false, false},
-					{false, false, false, false, false},
-					{false, true, true, true, false},
-					{false, false, false, false, false},
-					{false, false, false, false, false},
+				[][]int{
+					{0, 0, 0},
+					{0, 0, 0},
+					{0, 0, 0},
+				},
+			},
+			{
+				[][]int{
+					{0, 0, 0},
+					{0, 1, 0},
+					{0, 0, 0},
+				},
+				[][]int{
+					{0, 0, 0},
+					{0, 0, 0},
+					{0, 0, 0},
+				},
+			},
+			{
+				[][]int{
+					{0, 0, 0, 0, 0},
+					{0, 0, 1, 0, 0},
+					{0, 0, 1, 0, 0},
+					{0, 0, 1, 0, 0},
+					{0, 0, 0, 0, 0},
+				},
+				[][]int{
+					{0, 0, 0, 0, 0},
+					{0, 0, 0, 0, 0},
+					{0, 1, 1, 1, 0},
+					{0, 0, 0, 0, 0},
+					{0, 0, 0, 0, 0},
 				},
 			},
 		}
