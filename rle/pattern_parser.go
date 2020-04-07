@@ -89,13 +89,22 @@ func (pp *PatternParser) ParsePattern(width, height int) [][]int {
 		case RUN_COUNT:
 			count, _ := strconv.Atoi(pp.currentToken.Literal)
 			for i := 0; i < count; i++ {
-				if pp.peekToken.Type == ALIVE_CELL {
+				switch pp.peekToken.Type {
+				case ALIVE_CELL:
 					row[rowIndex+i] = 1
-				} else {
+				case DEAD_CELL:
 					row[rowIndex+i] = 0
+				case EOL:
+					result[colIndex] = row
+					row = make([]int, width)
+					rowIndex = -1
+					colIndex++
 				}
 			}
-			rowIndex += count - 1
+
+			if pp.peekToken.Type != EOL {
+				rowIndex += count - 1
+			}
 			pp.nextToken()
 		case ALIVE_CELL:
 			row[rowIndex] = 1
