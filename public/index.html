@@ -20,11 +20,23 @@
         cursor: move;
       }
 
+      a {
+        text-decoration: none;
+        color: #453645;
+      }
+
       .panel {
         position: absolute;
-        background: rgba(255, 255, 255, 0.4);
-        margin: 5px;
-        padding: 5px;
+        /* background: rgba(255, 255, 255, 0.4); */
+        background-color: rgba(0,0,0,0.1);
+
+        margin: 0;
+        padding: 10px;
+      }
+
+      .header {
+        width: 100%;
+
       }
 
       #title {
@@ -52,7 +64,7 @@
     <script type="module" src="./main.js"></script>
 	</head>
 	<body>
-    <div id="title" class="panel">
+    <header id="title" class="header panel">
       <h1><a href="https://github.com/nhoffmann/life">Game of Life</a></h1>
       <div>
         Current Pattern: <span id="pattern-label"></span>
@@ -72,7 +84,7 @@
         |
         <input type="file" name="file-input" id="file-input" />
       </div>
-    </div>
+    </header>
     <div id="controls" class="panel">
       <input id="cellSideLength-range" type="range" min="3" max="25" value="10">
       <button id="center" class="btn btn-link">Center</button>
