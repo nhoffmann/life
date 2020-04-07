@@ -1,9 +1,6 @@
 package simulator
 
 import (
-	"bytes"
-	"fmt"
-
 	"github.com/nhoffmann/life/grid"
 )
 
@@ -30,6 +27,14 @@ func (s *Simulator) Generation() *grid.Generation {
 	return s.generation
 }
 
+func (s *Simulator) GenerationCount() int {
+	return s.generationCount
+}
+
+func (s *Simulator) CellCount() int {
+	return s.generation.CellCount()
+}
+
 // Evolute creates the next state of the grid and then replaces the current one
 func (s *Simulator) Evolute() {
 	nextGeneration := grid.NewGeneration()
@@ -40,14 +45,6 @@ func (s *Simulator) Evolute() {
 
 	s.generationCount++
 	s.generation = nextGeneration
-}
-
-func (s *Simulator) GenerationCount() int {
-	return s.generationCount
-}
-
-func (s *Simulator) CellCount() int {
-	return s.generation.CellCount()
 }
 
 func (s *Simulator) evoluteMooreNeighborhood(nextGeneration *grid.Generation, cell grid.Cell) {
@@ -88,13 +85,4 @@ func (s *Simulator) cellLives(cell grid.Cell) bool {
 	}
 
 	return false
-}
-
-func (s *Simulator) String() string {
-	var out bytes.Buffer
-
-	// out.WriteString(s.generation.String())
-	fmt.Fprintf(&out, "Generation: %d", s.generationCount)
-
-	return out.String()
 }
