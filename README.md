@@ -14,7 +14,7 @@ You can see it in action here: https://zentralmaschine.net/life/public
 * [x] ~~**Add web interface for loading RLE files.** RLE file support is present, but currently not offered in the web interface.~~
 * [x] ~~**Infinite board.** Currently the board wraps around at the edges.~~
 * [x] ~~**Add ability to change board configuration in real time.** Cell size, center of the board, line width etc. should all be configurable.~~
-* [ ] **Javascript native renderer** Currently the game state gets rendered via draw2d in go. The resulting image is then rendered in a canvas in the browser. While this keeps the rendering implementation in Go code, it is not efficient at all.
+* [ ] **Javascript native renderer** Currently the game state gets rendered via [draw2d](https://github.com/llgcode/draw2d) in go. The resulting image is then rendered in a canvas in the browser through [go-canvas](https://github.com/markfarnan/go-canvas). While this keeps the rendering implementation in Go code, it is not efficient and it would be preferable to do the rendering in a more native environment directly.
 * [ ] **3D Life.** A three dimensional version of Life :)
 
 ## Development
