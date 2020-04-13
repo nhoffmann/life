@@ -1,9 +1,11 @@
 # Life
 
-A Conway's Game Of Life simulator written in Go. It includes rendering on the command line and on a webpage via web assembly.
+A Conway's Game Of Life simulator written in Go. It features an infinite board and renders in the browser via web assembly.
+It comes with some preloaded patterns to investigate, but also let's you upload patterns stored in the [RLE file format](https://www.conwaylife.com/wiki/Run_Length_Encoded) for life patterns.
+It supports all possible rules of Life like cellular automata.
 
 
-You can see it in action here: http://nhoffmann.github.com/life/public
+You can see it in action here: https://zentralmaschine.net/life/public
 
 ## Roadmap
 
@@ -12,4 +14,17 @@ You can see it in action here: http://nhoffmann.github.com/life/public
 * [x] ~~**Add web interface for loading RLE files.** RLE file support is present, but currently not offered in the web interface.~~
 * [x] ~~**Infinite board.** Currently the board wraps around at the edges.~~
 * [x] ~~**Add ability to change board configuration in real time.** Cell size, center of the board, line width etc. should all be configurable.~~
+* [ ] **Javascript native renderer** Currently the game state gets rendered via draw2d in go. The resulting image is then rendered in a canvas in the browser. While this keeps the rendering implementation in Go code, it is not efficient at all.
 * [ ] **3D Life.** A three dimensional version of Life :)
+
+## Development
+
+Clone the repo and get the dependencies.
+
+In order to compile the application run:
+
+    $ GOOS=js GOARCH=wasm go build -o ./public/main.wasm ./main.go
+
+The public folder contains a [caddy](https://caddyserver.com/) configuration so you can run the webserver like so:
+
+    $ cd public && caddy
